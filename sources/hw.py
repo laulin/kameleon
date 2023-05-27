@@ -16,8 +16,10 @@ D_C = 14
 BACKLIGHT = 16
 SD_CS2 = 17
 
-LCD_SPI = 0
-LCD_SPEED = 80000000
+SPI_INDEX = 0
+SPI_SPEED = 80000000
+I2C_INDEX = 0
+I2C_SPEED = 400000
 
 # The values' order is important, otherwis the TFT drivers will not rotate the display
 WIDTH = 240

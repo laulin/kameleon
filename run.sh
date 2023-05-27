@@ -1,0 +1,1 @@
+rshell --port /dev/ttyACM0 --buffer-size 32 --editor nano

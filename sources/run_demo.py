@@ -2,8 +2,9 @@ import utime
 import vga2_8x16 as font
 import time
 import hal
+import os
 
-tft, rtc, keyboard = hal.setup()
+tft, rtc, keyboard, sd = hal.setup()
 
 tft.fill(0)
 
@@ -45,6 +46,19 @@ def test_time():
         if len(events) > 0 or x != 0 or y != 0:
             last_event = time.ticks_ms()
 
+def test_sd():
+    print("Start of sd test")
+    print(os.listdir('/sd'))
 
+    with open("/sd/test.txt", "w") as f:
+        f.write("hello world")
 
-test_time()
+    print(os.listdir('/sd'))
+
+    with open("/sd/test.txt", "r") as f:
+        print("written : ", f.read())
+
+    print("End of sd test")
+
+test_sd()
+#test_time()

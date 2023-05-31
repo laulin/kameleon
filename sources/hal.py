@@ -2,6 +2,7 @@
 
 try:
     from machine import SPI, Pin, I2C
+    import os, sdcard
     import st7789 
     from ds3231 import DS3231
     from bbq20kbd import BBQ20Kbd
@@ -39,6 +40,9 @@ def setup():
         keyboard = BBQ20Kbd(i2c)
         keyboard.configuration(use_mods=True, report_mods=True)
 
-        return tft, realtime_clock, keyboard
+        sd=sdcard.SDCard(spi, Pin(hw.SD_CS))
+        os.mount(sd,'/sd')
+
+        return tft, realtime_clock, keyboard, sd
     else:
         raise Exception("Only micropython is supported")

@@ -114,6 +114,12 @@ class BBQ20Kbd:
 
     @property
     def key(self):
+        # return key status and key str
+        # key status : 
+        # * 1 : push
+        # * 2 : hold
+        # * 3 : release
+        
         if self.key_count == 0:
             return None
 

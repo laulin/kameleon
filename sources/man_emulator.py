@@ -1,6 +1,9 @@
 import emulator
 import time
 import font_8x16
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
 
 e = emulator.Emulator()
 e.init()
@@ -22,4 +25,14 @@ e.init()
 # time.sleep(1)
 
 e.text(font_8x16, "abcdefgh", 1, 1)
-time.sleep(2)
+while True:
+    result = e.key
+
+    if result is not None:
+        print(result)
+
+    result = e.trackpad
+
+    if result != (0,0):
+        print(result)
+

@@ -1,11 +1,12 @@
 
 
 try:
-    from machine import SPI, Pin, I2C
+    from machine import SPI, Pin, I2C, UART
     import os, sdcard
     import st7789 
     from drivers.ds3231 import DS3231
     from drivers.bbq20kbd import BBQ20Kbd
+    from drivers.e32900t20d import E32900T20D
     import drivers.hw as hw
     MICROPYTHON = True
 except:
@@ -50,7 +51,26 @@ def setup():
         sd=sdcard.SDCard(spi, Pin(hw.SD_CS))
         os.mount(sd,SD_MOUNTING_POINT)
 
-        return tft, realtime_clock, keyboard, SD_MOUNTING_POINT
+        # LORA and UART
+        #M0 = 6
+        #M1 = 7
+        #RX0 = 8
+        #TX0 = 9
+        #AUX = 10
+
+        m0_pin = Pin(hw.M0, mode=Pin.OUT, value=0)
+        m1_pin = Pin(hw.M0, mode=Pin.OUT, value=0)
+        tx_pin = Pin(hw.TX0, mode=Pin.OUT, value=0)
+        rx_pin = Pin(hw.RX0, mode=Pin.IN)
+        aux_pin = Pin(hw.AUX, mode=Pin.IN)
+
+        uart = UART(1, 9600)
+        uart.init(hw.UART_BAUDRATE, bits=hw.UART_BITS, parity=hw.UART_PARITY, stop=hw.UART_STOP, rx=rx_pin, tx=tx_pin)
+
+        lora = E32900T20D(m0_pin, m1_pin, uart, aux_pin)
+
+
+        return tft, realtime_clock, keyboard, SD_MOUNTING_POINT, lora
     else:
         ctx = Context()
         tft = ST7789(ctx)
@@ -60,4 +80,4 @@ def setup():
 
         sd_mounting_point = tempfile.TemporaryDirectory()
 
-        return tft, realtime_clock, keyboard, sd_mounting_point
+        return tft, realtime_clock, keyboard, sd_mounting_point, None

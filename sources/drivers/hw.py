@@ -6,8 +6,8 @@ MISO = 4
 LCD_CS = 5
 M0 = 6
 M1 = 7
-RX0 = 8
-TX0 = 9
+RX0 = 9
+TX0 = 8
 AUX = 10
 KB_INT = 11
 RST = 12
@@ -20,6 +20,11 @@ SPI_INDEX = 0
 SPI_SPEED = 40000000
 I2C_INDEX = 0
 I2C_SPEED = 400000
+
+UART_BAUDRATE = 9600
+UART_BITS = 8
+UART_PARITY = None
+UART_STOP = 1
 
 # The values' order is important, otherwis the TFT drivers will not rotate the display
 WIDTH = 240

@@ -4,16 +4,23 @@ try:
     from machine import SPI, Pin, I2C
     import os, sdcard
     import st7789 
-    from ds3231 import DS3231
-    from bbq20kbd import BBQ20Kbd
-    import hw
+    from drivers.ds3231 import DS3231
+    from drivers.bbq20kbd import BBQ20Kbd
+    import drivers.hw as hw
     MICROPYTHON = True
 except:
+    import tempfile
+
+    from emulator.context import Context
+    from emulator.st7789 import ST7789
+    from drivers.ds3231 import DS3231
+    from drivers.bbq20kbd import BBQ20Kbd
     MICROPYTHON = False
 
 
 def setup():
     if MICROPYTHON:
+        SD_MOUNTING_POINT = "/sd"
         # SPI
         clk_pin = Pin(hw.CLK, mode=Pin.OUT, value=0)
         mosi_pin = Pin(hw.MOSI, mode=Pin.OUT, value=0)
@@ -41,8 +48,16 @@ def setup():
         keyboard.configuration(use_mods=True, report_mods=True)
 
         sd=sdcard.SDCard(spi, Pin(hw.SD_CS))
-        os.mount(sd,'/sd')
+        os.mount(sd,SD_MOUNTING_POINT)
 
-        return tft, realtime_clock, keyboard, sd
+        return tft, realtime_clock, keyboard, SD_MOUNTING_POINT
     else:
-        raise Exception("Only micropython is supported")
+        ctx = Context()
+        tft = ST7789(ctx)
+        tft.init()
+        keyboard = BBQ20Kbd()
+        realtime_clock = DS3231()
+
+        sd_mounting_point = tempfile.TemporaryDirectory()
+
+        return tft, realtime_clock, keyboard, sd_mounting_point

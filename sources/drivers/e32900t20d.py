@@ -25,7 +25,8 @@ class E32900T20D:
 
     def send_frame(self, payload:bytes)->int:
         # send a payload on a channel, with an adress (0xFFFF or 0x0000 for broadcasing on the channel)
-        raise NotImplemented()
+        self._uart.write(payload)
+        self._uart.flush()
     
     
     def recv_frame(self) -> bytes:

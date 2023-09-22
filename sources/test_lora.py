@@ -12,7 +12,10 @@ def run():
     print(lora.read_version())
     time.sleep_ms(20)
     print(lora.read_configuration())
-    lora.set_mode(lora.MODE_POWER_SAVING)
+    lora.set_mode(lora.MODE_WAKE_UP)
+    time.sleep_ms(2)
+    lora.wait()
+    lora.send_frame(b"deadbeef")
 
 
 run()

@@ -16,13 +16,12 @@ class E32900T20D:
         self._uart = uart
         self._aux = aux
 
-        self._current_mode = E32900T20D.MODE_NORMAL
+        self._current_mode = E32900T20D.MODE_WAKE_UP
 
     def setup(self)->None:
         # configure the peripheral
-        self._current_mode = E32900T20D.MODE_NORMAL
-        self.set_mode(E32900T20D.MODE_NORMAL)
-
+        self._current_mode = E32900T20D.MODE_WAKE_UP
+        self.set_mode(E32900T20D.MODE_WAKE_UP)
 
     def send_frame(self, payload:bytes)->int:
         # send a payload on a channel, with an adress (0xFFFF or 0x0000 for broadcasing on the channel)
@@ -63,27 +62,33 @@ class E32900T20D:
     
     def read_version(self)->dict:
         CMD = b"\xc3\xc3\xc3"
-        MODEL = { '0x32':433, '0x38':470, '0x45':868, '0x44':915, '0x46':170 }
         mode_stack = self._current_mode
-        time.sleep_ms(50)
         self.set_mode(E32900T20D.MODE_SLEEP)
-        time.sleep_ms(50)
+        # write the command and wait all bits is transmitted
         self._uart.write(CMD)
+        self._uart.flush()        
+        # wait for the AUX raising edge
+        self.wait()
 
-        # To be improved
-        time.sleep_ms(200)
 
-        data = self._uart.read(6)
-        print(data)
-        # output = {
-        #     "model" : MODEL[data[1]],
-        #     "version" : hex(data[2]),
-        #     "feature" : hex(data[3])
-        # }
+        data = self._uart.read(4)
+
+        output = {
+            "model" : hex(data[1]),
+            "version" : hex(data[2]),
+            "feature" : hex(data[3])
+        }
 
         self.set_mode(mode_stack)
 
-        #return output
+        return output
     
     def reset(self)->None:
         raise NotImplemented()
+    
+    def wait(self, timeout=100):
+        while self.availables() == 0:
+            time.sleep_ms(1)
+            timeout -= 1
+            if timeout == 0:
+                raise Exception("Wait timeout")

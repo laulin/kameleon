@@ -7,10 +7,11 @@ def run():
 
     lora.setup()
     time.sleep_ms(2)
-    lora.set_mode(lora.MODE_POWER_SAVING)
-    time.sleep_ms(2)
-    lora.set_mode(lora.MODE_WAKE_UP)
+    lora.set_mode(lora.MODE_NORMAL)
     time.sleep_ms(2)
     print(lora.read_version())
+    time.sleep_ms(20)
+    lora.set_mode(lora.MODE_POWER_SAVING)
+
 
 run()

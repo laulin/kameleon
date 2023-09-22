@@ -66,7 +66,7 @@ def setup():
         aux_pin = Pin(hw.AUX, mode=Pin.IN)
 
         uart = UART(1, hw.UART_BAUDRATE)
-        uart.init(hw.UART_BAUDRATE, bits=hw.UART_BITS, parity=hw.UART_PARITY, stop=hw.UART_STOP, rx=rx_pin, tx=tx_pin, rxbuf=512, timeout=20, timeout_char=5)
+        uart.init(hw.UART_BAUDRATE, bits=hw.UART_BITS, parity=hw.UART_PARITY, stop=hw.UART_STOP, rx=rx_pin, tx=tx_pin, rxbuf=512, timeout=20, timeout_char=20)
 
         lora = E32900T20D(m0_pin, m1_pin, uart, aux_pin)
 

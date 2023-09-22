@@ -5,7 +5,7 @@
 import time
 
 class E32900T20D:
-    DEFAULT_CONFIGURATION = b"\xC1\x00\x00\x1A\x17\x44"
+    DEFAULT_CONFIGURATION = b"\xC2\x00\x00\x1A\x06\x44"
     MODE_NORMAL = 0
     MODE_WAKE_UP = 1
     MODE_POWER_SAVING = 2
@@ -57,29 +57,35 @@ class E32900T20D:
     def write_configuration(self, bytes)->None:
         raise NotImplemented()
     
-    def read_configuration(self)->bytes:
-        raise NotImplemented()
-    
-    def read_version(self)->dict:
-        CMD = b"\xc3\xc3\xc3"
+    def _read_command(self, command:bytes, expected_bytes:int)->bytes:
         mode_stack = self._current_mode
         self.set_mode(E32900T20D.MODE_SLEEP)
         # write the command and wait all bits is transmitted
-        self._uart.write(CMD)
+        self._uart.write(command)
         self._uart.flush()        
         # wait for the AUX raising edge
         self.wait()
+      
+        data = self._uart.read(expected_bytes)
 
+        self.set_mode(mode_stack)
 
-        data = self._uart.read(4)
+        return data
+    
+    def read_configuration(self)->bytes:
+        CMD = b"\xc1\xc1\xc1"
+        return self._read_command(CMD, 6)
+
+    
+    def read_version(self)->dict:
+        CMD = b"\xc3\xc3\xc3"
+        data = self._read_command(CMD, 4)
 
         output = {
             "model" : hex(data[1]),
             "version" : hex(data[2]),
             "feature" : hex(data[3])
         }
-
-        self.set_mode(mode_stack)
 
         return output
     

@@ -38,6 +38,9 @@ class E32900T20D:
         # should be done on raising edage of AUX or if available()
         return self._uart.read()
     
+    def recv_frame_length(self) -> int:
+        return self._aux.any()
+    
     def available(self) -> bool:
         return self._aux.value()
     

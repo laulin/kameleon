@@ -8,6 +8,19 @@ class BBQ20Kbd:
     PRESS = 1
     UP = 3
     DOWN = 2
+
+    # special keys
+    ANSWER = "\x06"
+    HANG_UP = "\x12"
+    BLACKBERRY = "\x11"
+    BACK = "\x07"
+    CLICK = "\x05"
+    ALT = "\x1a"
+    SHIFT_LEFT = "\x1b"
+    SHIFT_RIGHT = "\x1c"
+    SYM = "\x1d"
+    BACK_SPACE = "\x08"
+    
     def __init__(self) -> None:
         self._log = logging.getLogger("BBQ20Kbd")
         self._key_status = dict()

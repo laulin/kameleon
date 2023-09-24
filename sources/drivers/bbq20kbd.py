@@ -68,6 +68,22 @@ STATE_RELEASE    = const(3)
 
 # on rp2 : I2C(1, scl=Pin(3), sda=Pin(2), freq=400000)
 class BBQ20Kbd:
+    PRESS = 1
+    UP = 3
+    DOWN = 2
+
+    # special keys
+    ANSWER = "\x06"
+    HANG_UP = "\x12"
+    BLACKBERRY = "\x11"
+    BACK = "\x07"
+    CLICK = "\x05"
+    ALT = "\x1a"
+    SHIFT_LEFT = "\x1b"
+    SHIFT_RIGHT = "\x1c"
+    SYM = "\x1d"
+    BACK_SPACE = "\x08"
+    
     def __init__(self, i2c):
         self._i2c = i2c
         self._buffer = bytearray(2)

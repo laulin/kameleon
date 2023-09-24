@@ -25,20 +25,25 @@ class E32900T20D:
 
     def send_frame(self, payload:bytes)->int:
         # send a payload on a channel, with an adress (0xFFFF or 0x0000 for broadcasing on the channel)
+        # always do :
+        # 1. check if available()
+        # 2. send frame
+        # 3. wait available()
         self._uart.write(payload)
         self._uart.flush()
     
     
     def recv_frame(self) -> bytes:
-        raise NotImplemented()
+        # get the frame from the RX buffer
+        # should be done on raising edage of AUX or if available()
+        return self._uart.read()
     
-    def availables(self) -> bool:
+    def available(self) -> bool:
         return self._aux.value()
     
     def set_mode(self, mode:int)->None:
         if mode == self._current_mode:
             return
-        print(f"change mode to {mode}")
         self._current_mode = mode
         if mode == 0:
             self._m0_pin.value(0)
@@ -94,7 +99,7 @@ class E32900T20D:
         raise NotImplemented()
     
     def wait(self, timeout=100):
-        while self.availables() == 0:
+        while self.available() == 0:
             time.sleep_ms(1)
             timeout -= 1
             if timeout == 0:

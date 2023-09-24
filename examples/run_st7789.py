@@ -3,6 +3,8 @@ import st7789
 import utime
 import hw
 
+# This example show how to setup the TFT and fill it with color
+
 
 clk = Pin(hw.CLK, mode=Pin.OUT, value=0)
 mosi = Pin(hw.MOSI, mode=Pin.OUT, value=0)

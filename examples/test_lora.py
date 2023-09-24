@@ -1,6 +1,8 @@
 import hal
 import time
 
+# This example show how to setup the lora device and send a frame
+
 _, _, _, _, lora = hal.setup()
 
 def run():

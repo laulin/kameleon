@@ -1,5 +1,5 @@
 import utime
-import vga2_8x16 as font
+import sources.font_8x16 as font
 import time
 import hal
 import os

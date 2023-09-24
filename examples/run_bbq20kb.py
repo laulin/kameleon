@@ -4,6 +4,7 @@ import hw
 
 from bbq20kbd import BBQ20Kbd
 
+# Show how to use the keyboard
 
 i2c = I2C(0, scl=Pin(hw.SDL, pull=Pin.PULL_UP), sda=Pin(hw.SDA, pull=Pin.PULL_UP), freq=400000)
 kb = BBQ20Kbd(i2c)

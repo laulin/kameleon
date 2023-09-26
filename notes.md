@@ -7,3 +7,5 @@ https://trustedcomputinggroup.org/resource/tpm-library-specification/
 
 REPL sur l'ecran :
 https://github.com/boochow/FBConsole
+
+Reticulum : https://github.com/markqvist/reticulum

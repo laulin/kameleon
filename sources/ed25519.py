@@ -27,8 +27,11 @@ def expmod(b,e,m):
 def inv(x):
   return expmod(x,q-2,q)
 
-d = -121665 * inv(121666)
-I = expmod(2,(q-1)//4,q)
+# originally, the I value is calculated on module loading but is required heavy recursion, not supported by micropython
+#I = expmod(2,(q-1)//4,q)
+# d = -121665 * inv(121666)
+d = -4513249062541557337682894930092624173785641285191125241628941591882900924598840740
+I = 19681161376707505956807079304988542015446066515923890162744021073123829784752
 
 def xrecover(y):
   xx = (y*y-1) * inv(d*y*y+1)
@@ -37,8 +40,10 @@ def xrecover(y):
   if x % 2 != 0: x = q-x
   return x
 
-By = 4 * inv(5)
-Bx = xrecover(By)
+# By = 4 * inv(5)
+# Bx = xrecover(By)
+By = 46316835694926478169428394003475163141307993866256225615783033603165251855960
+Bx = 15112221349535400772501151409588531511454012693041857206046113283949847762202
 B = [Bx % q,By % q]
 
 def edwards(P,Q):

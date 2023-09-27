@@ -1,10 +1,10 @@
 import utime
-import sources.font_8x16 as font
+import font_8x16 as font
 import time
 import hal
 import os
 
-tft, rtc, keyboard, sd = hal.setup()
+tft, rtc, keyboard, sd, lora = hal.setup()
 
 tft.fill(0)
 

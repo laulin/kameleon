@@ -140,13 +140,15 @@ def edwards_double(P):
     return (x3 % q, y3 % q, z3 % q, t3 % q)
 
 
+# rewrite the function to prevent recursion
+# Need a rewrite with time constant approach
 def scalarmult(P, e):
-    if e == 0:
-        return ident
-    Q = scalarmult(P, e // 2)
-    Q = edwards_double(Q)
-    if e & 1:
-        Q = edwards_add(Q, P)
+    Q = ident
+    while e:
+        if e & 1:
+            Q = edwards_add(Q, P)
+        P = edwards_double(P)
+        e >>= 1
     return Q
 
 

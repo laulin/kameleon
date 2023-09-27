@@ -10,6 +10,19 @@ except:
     # cpython case
     def ticks_us():
         return time.time()*1000000
+    
+try:
+    from gc import collect as _collect
+    from gc import mem_alloc
+
+    def collect():
+        before = mem_alloc()
+        _collect()
+        after = mem_alloc()
+        print(f"collect : {before} -> {after}")
+except:
+    def collect():
+        pass
 
 def timeit(name, func, *args):
     t1 = ticks_us()
@@ -37,27 +50,30 @@ def token_bytes(length:int)->bytes:
 
 def test_ed25519():
     print("start of test_ed25519")
+    collect()
     secret_key = token_bytes(32)
+    print("stating Public key generation")
+    print(f"Private key : {secret_key}")
+    pk = timeit("ed25519:create public key", ed25519.publickey_unsafe, secret_key)
+    print(f"Public key : {pk}")
 
-    pk = timeit("ed25519:create public key", ed25519.publickey, secret_key)
-    print(pk)
     message=b"hello"
-    sign = timeit("ed25519:sign", ed25519.signature, message, secret_key, pk)
-    print(sign)
+    sign = timeit("ed25519:sign", ed25519.signature_unsafe, message, secret_key, pk)
+    print(f"signature : {sign}")
 
     timeit("ed25519:check signature", ed25519.checkvalid, sign, message, pk)
     print("end of test_ed25519")
 
-#test_ed25519()
+test_ed25519()
 
 def test_x25519():
     print("start of test_x25519")
+    collect()
     secret_key = token_bytes(32)
     secret_key2 = token_bytes(32)
 
     sk = timeit("x25519:private key from bytes", x25519.X25519PrivateKey.from_private_bytes, secret_key)
     pk = timeit("x25519:public key from private one", sk.public_key)
-
 
     sk2 = x25519.X25519PrivateKey.from_private_bytes(secret_key2)
     pk2 = sk2.public_key()

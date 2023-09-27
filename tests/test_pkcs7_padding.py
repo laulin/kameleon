@@ -1,7 +1,7 @@
 import unittest
 import kameleon.crypto.pkcs7_padding as pkcs
 
-class TestFernet(unittest.TestCase):
+class TestPKCS7(unittest.TestCase):
     def test_pad_1(self):
         data=b"aaaaaaaaaa"
 

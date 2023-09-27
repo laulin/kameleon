@@ -2,7 +2,7 @@ import time
 
 import hal 
 from terminal import Terminal
-import terminal_bitmap
+import bitmap.terminal_bitmap as terminal_bitmap
 
 tft, _, keyboard, _, lora = hal.setup()
 

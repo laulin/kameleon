@@ -9,3 +9,6 @@ repl:
 
 clean_cache:
 	find . -type d -name '__pycache__' -exec rm -rf {} +
+
+test:
+	python3 -m unittest discover -s tests 

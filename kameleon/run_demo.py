@@ -1,5 +1,5 @@
 import utime
-import font_8x16 as font
+import kameleon.bitmap.font_8x16 as font
 import time
 import hal
 import os

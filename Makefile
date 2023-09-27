@@ -1,5 +1,5 @@
 upload: clean_cache
-	rshell --port /dev/ttyACM0 --editor nano --buffer-size 512 rsync sources/ /pyboard
+	rshell --port /dev/ttyACM0 --editor nano --buffer-size 512 rsync kameleon/ /pyboard
 
 term:
 	rshell --port /dev/ttyACM0 --editor nano --buffer-size 512

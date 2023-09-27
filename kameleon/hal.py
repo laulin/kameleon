@@ -10,13 +10,14 @@ try:
     import drivers.hw as hw
     MICROPYTHON = True
 except Exception as e:
-    print(e)
     import tempfile
 
     from emulator.context import Context
     from emulator.st7789 import ST7789
-    from drivers.ds3231 import DS3231
-    from drivers.bbq20kbd import BBQ20Kbd
+    from emulator.e32900t20d import E32900T20D
+    from emulator.ds3231 import DS3231
+    from emulator.bbq20kbd import BBQ20Kbd
+    import redis
     MICROPYTHON = False
 
 
@@ -78,7 +79,10 @@ def setup():
         tft.init()
         keyboard = BBQ20Kbd()
         realtime_clock = DS3231()
+        realtime_clock = DS3231()
+        redis_instance = redis.Redis("127.0.0.1", 6379)
+        lora = E32900T20D(redis_instance)
 
         sd_mounting_point = tempfile.TemporaryDirectory()
 
-        return tft, realtime_clock, keyboard, sd_mounting_point, None
+        return tft, realtime_clock, keyboard, sd_mounting_point, lora

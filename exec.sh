@@ -1,1 +1,0 @@
-rshell -p /dev/ttyACM0 --buffer-size 512 -b 115200 repl pyboard 'import run_demo'

@@ -1,5 +1,5 @@
-import x25519
-import ed25519
+import crypto.x25519
+import crypto.ed25519
 import time 
 import random
 

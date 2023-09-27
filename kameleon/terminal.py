@@ -1,4 +1,4 @@
-import font_8x16
+import bitmap.font_8x16 as font_8x16
 
 class Terminal:
     FONT_HEIGHT = font_8x16.HEIGHT
